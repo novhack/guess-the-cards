@@ -5,11 +5,14 @@ import { useRankings } from '../composables/useRankings';
 import { useHand } from '../composables/useHand';
 import { useScore } from '../composables/useScore';
 import { onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { RoutePaths } from '../plugins/router';
 
 const { countdown, addSeconds, removeSeconds, startCountdown } = useCountdown();
 const { hand, solution, bestRanking, dealHand, solveHand } = useHand();
 const { rankings, prepareRankings } = useRankings();
 const { score, increaseScore } = useScore();
+const router = useRouter();
 
 function takeGuess(guessedRanking: string) {
   if (bestRanking.value === guessedRanking) {
@@ -38,6 +41,7 @@ watch(countdown, (newValue: number) => {
   if (newValue <= 0) {
     console.log("GAME OVER!");
     console.log("Your score was: ", score.value);
+    router.push(RoutePaths.Leaderboard);
   }
 });
 </script>
