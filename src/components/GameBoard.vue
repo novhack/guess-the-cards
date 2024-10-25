@@ -5,9 +5,10 @@ import { useRankings } from '../composables/useRankings';
 import { useHand } from '../composables/useHand';
 import { useScore } from '../composables/useScore';
 import { useLeaderboard } from '../composables/useLeaderboard';
-import { onMounted, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { RoutePaths } from '../plugins/router';
+import GuessOverlay from './GuessOverlay.vue';
 
 const { countdown, addSeconds, removeSeconds, startCountdown } = useCountdown();
 const { hand, solution, bestRanking, dealHand, solveHand } = useHand();
@@ -16,6 +17,9 @@ const { score, increaseScore } = useScore();
 const { storeAttempt } = useLeaderboard();
 const router = useRouter();
 
+const showGuessOverlay = ref(false);
+const wasGuessCorrect = ref(false);
+
 function takeGuess(guessedRanking: string) {
   if (bestRanking.value === guessedRanking) {
     addSeconds(10);
@@ -23,6 +27,11 @@ function takeGuess(guessedRanking: string) {
   } else {
     removeSeconds(10);
   }
+
+  // Show guess overlay
+  wasGuessCorrect.value = bestRanking.value === guessedRanking;
+  showGuessOverlay.value = true;
+
   setupNewRound();
 }
 
@@ -52,6 +61,9 @@ watch(countdown, (newValue: number) => {
 <template>
   <div>
     <a-card v-for="card of hand" :key="card" :value="card"></a-card>
-    <v-btn v-for="ranking of rankings" :key="ranking" @click="takeGuess(ranking)"> {{ ranking }}</v-btn>
+    <guess-overlay v-model="showGuessOverlay" :was-guess-correct="wasGuessCorrect"/>
+    <div class="d-flex flex-column justify-center">
+      <v-btn v-for="ranking of rankings" :key="ranking" @click="takeGuess(ranking)"> {{ ranking }}</v-btn>
+    </div>
   </div>
 </template>
