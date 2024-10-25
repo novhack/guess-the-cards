@@ -60,8 +60,10 @@ watch(countdown, (newValue: number) => {
 
 <template>
   <div>
-    <a-card v-for="card of hand" :key="card" :value="card"></a-card>
     <guess-overlay v-model="showGuessOverlay" :was-guess-correct="wasGuessCorrect"/>
+    <div class="d-flex flex-row justify-center pa-6">
+      <a-card v-for="card of hand" :key="card" :definition="card"></a-card>
+    </div>
     <div class="d-flex flex-column justify-center">
       <v-btn v-for="ranking of rankings" :key="ranking" @click="takeGuess(ranking)"> {{ ranking }}</v-btn>
     </div>
