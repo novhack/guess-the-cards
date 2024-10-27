@@ -69,7 +69,6 @@ const suitColor = computed(() => {
 }
 
 .card-value {
-    margin-top: -1cqh;
     font-weight: 1000;
     font-size: 8cqw;
     color: white;
