@@ -17,6 +17,7 @@ export default createI18n({
             leaderboardView: {
                 title: "Leaderboard",
                 playAgainButton: "Play Again",
+                totalCorrectAnswers: "Total correct answers: ",
                 attempt: "Attempt",
                 answers: "answers",
             },

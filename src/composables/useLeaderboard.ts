@@ -1,4 +1,5 @@
 import { useStorage } from '@vueuse/core';
+import { computed } from 'vue';
 
 const STORAGE_NAME = "guess-the-cards-leaderboard-storage";
 
@@ -32,8 +33,13 @@ export function useLeaderboard() {
         return `${attemptsCount}`;
     }
 
+    const totalCorrectAnswers = computed(() => {
+        return leaderboard.value.previousAttempts.reduce((sum: number, attempt: Attempt) => sum + attempt.score, 0);
+    });
+
     return {
         leaderboard,
+        totalCorrectAnswers,
         storeAttempt,
     }
 }
