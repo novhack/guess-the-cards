@@ -4,9 +4,10 @@ import { Hand as PokerSolver } from 'pokersolver';
 
 const HAND_CARDS_COUNT = 5;
 
+const hand: Ref<Array<string>> = ref([]);
+
 export function useHand() {
     const { buildDeck, shuffleDeck, dealCards } = useDeck();
-    const hand: Ref<Array<string>> = ref([]);
     const solution: Ref<any> = ref();
     const bestRanking: Ref<string> = ref("");
 

@@ -43,34 +43,35 @@ const suitColor = computed(() => {
         default:
             return "";
     }
-})
-
-
+});
 </script>
 
 <template>
-    <div class="card card-border" :style="{ backgroundColor: suitColor }">
-        <div :style="{ color: 'black', opacity: '50%' }">{{ suit }}</div>
-        <div class="card-value">{{ definition[0] }}</div>
+    <div class="card d-flex flex-column" :style="{ backgroundColor: suitColor }">
+        <div class="card-suit">{{ suit }}</div>
+        <div class="card-value d-flex justify-center">{{ definition[0] }}</div>
     </div>
 </template>
 
 <style scoped>
 .card {
-    height: 15vh;
-    width: auto;
-    min-height: 150px;
-    min-width: 100px;
+    aspect-ratio: 63/88;
+    width: 100%;
+    border-radius: 2cqw;
+    border: solid 1px black;
 }
 
-.card-border {
-    border-radius: 1em;
-    border: solid 1px;
+.card-suit {
+    color: black;
+    opacity: 50%;
+    margin: 0 0 0 1cqw;
+    font-size: 4cqw;
 }
 
 .card-value {
+    margin-top: -1cqh;
     font-weight: 1000;
+    font-size: 8cqw;
     color: white;
 }
-
 </style>

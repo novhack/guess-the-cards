@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ACard from './ACard.vue';
+import CardsDeck from './CardsDeck.vue';
 import { useCountdown } from '../composables/useCountdown';
 import { useRankings } from '../composables/useRankings';
 import { useHand } from '../composables/useHand';
@@ -11,7 +11,7 @@ import { RoutePaths } from '../plugins/router';
 import GuessOverlay from './GuessOverlay.vue';
 
 const { countdown, addSeconds, removeSeconds, startCountdown } = useCountdown();
-const { hand, solution, bestRanking, dealHand, solveHand } = useHand();
+const { solution, bestRanking, dealHand, solveHand } = useHand();
 const { rankings, prepareRankings } = useRankings();
 const { score, increaseScore } = useScore();
 const { storeAttempt } = useLeaderboard();
@@ -59,13 +59,21 @@ watch(countdown, (newValue: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <guess-overlay v-model="showGuessOverlay" :was-guess-correct="wasGuessCorrect"/>
-    <div class="d-flex flex-row justify-center pa-6">
-      <a-card v-for="card of hand" :key="card" :definition="card"></a-card>
-    </div>
-    <div class="d-flex flex-column justify-center">
-      <v-btn v-for="ranking of rankings" :key="ranking" @click="takeGuess(ranking)"> {{ ranking }}</v-btn>
+    <cards-deck class="cards-deck" />
+    <div class="d-flex flex-column">
+      <v-btn class="guess-button" v-for="ranking of rankings" :key="ranking" @click="takeGuess(ranking)"> {{ ranking }}</v-btn>
     </div>
   </div>
 </template>
+
+<style scoped>
+.cards-deck {
+  padding: 0vh 0vw 1vh 0vw;
+}
+
+.guess-button {
+  margin-bottom: 0.5vh;
+}
+</style>
