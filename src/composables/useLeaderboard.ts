@@ -29,7 +29,7 @@ export function useLeaderboard() {
     }
 
     function generateAttemptName(attemptsCount: number) {
-        return `Attempt ${attemptsCount}`;
+        return `${attemptsCount}`;
     }
 
     return {

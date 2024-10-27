@@ -5,6 +5,8 @@ const { leaderboard } = useLeaderboard();
 </script>
 
 <template>
-    <div>Leaderboard View</div>
-    <div v-for="previousAttempt of leaderboard.previousAttempts" :key="previousAttempt.name"> {{ previousAttempt.name }} - {{ previousAttempt.score }}</div>
+    <h2>{{ $t('leaderboardView.title') }}</h2>
+    <div v-for="previousAttempt of leaderboard.previousAttempts" :key="previousAttempt.name">
+        {{ $t('leaderboardView.attempt') }} {{ previousAttempt.name }} - {{ previousAttempt.score }} {{ $t('leaderboardView.answers') }}
+    </div>
 </template>
