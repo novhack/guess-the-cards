@@ -1,8 +1,8 @@
 import { ref, Ref } from 'vue';
-//import { Hand as PokerSolver } from 'pokersolver';
+
+const rankings: Ref<Array<string>> = ref([]);
 
 export function useRankings() {
-    const rankings: Ref<Array<string>> = ref([]);
     const gameHandValues: string[] = [];
 
     /**
