@@ -14,29 +14,39 @@ import { RoutePaths } from '../plugins/router';
 const CORRECT_GUESS_INCREMENT = 5;
 const INCORRECT_GUESS_DECREMENT = 10;
 
-const { countdown, addSeconds, removeSeconds, resetCountdown } = useCountdown();
+const { countdown, addSeconds, removeSeconds, resetCountdown, pauseCountdown, resumeCountdown } = useCountdown();
 const { solution, bestRanking, dealHand, solveHand } = useHand();
 const { prepareRankings } = useRankings();
 const { score, increaseScore } = useScore();
 const { storeAttempt } = useLeaderboard();
 const router = useRouter();
 
+// Overlay properties
 const showGuessOverlay = ref(false);
 const wasGuessCorrect = ref(false);
+const resolveAfterGuessOverlayCloses = ref(() => {});
 
-function takeGuess(guessedRanking: string) {
-  if (bestRanking.value === guessedRanking) {
-    addSeconds(CORRECT_GUESS_INCREMENT);
-    increaseScore();
-  } else {
-    removeSeconds(INCORRECT_GUESS_DECREMENT);
-  }
+async function takeGuess(guessedRanking: string) {
+    pauseCountdown();
 
-  // Show guess overlay
-  wasGuessCorrect.value = bestRanking.value === guessedRanking;
-  showGuessOverlay.value = true;
+    // Show guess overlay and wait for it to close
+    await new Promise<void>(resolve => {
+        wasGuessCorrect.value = bestRanking.value === guessedRanking;
+        showGuessOverlay.value = true;
+        resolveAfterGuessOverlayCloses.value = resolve;
+    });
 
-  setupNewRound();
+    // Evaluate the guessed ranking
+    if (bestRanking.value === guessedRanking) {
+        addSeconds(CORRECT_GUESS_INCREMENT);
+        increaseScore();
+    } else {
+        removeSeconds(INCORRECT_GUESS_DECREMENT);
+    }
+
+    setupNewRound();
+    // Only resume countdown after the new round is setup
+    resumeCountdown();
 }
 
 function restartGame() {
@@ -45,29 +55,33 @@ function restartGame() {
 }
 
 function setupNewRound() {
-  dealHand();
-  solveHand();
-  prepareRankings(solution, 3);
+    dealHand();
+    solveHand();
+    prepareRankings(solution, 3);
 }
 
 onMounted(() => restartGame());
 
 watch(countdown, (newValue: number) => {
-  if (newValue <= 0) {
-    console.log("GAME OVER!");
-    console.log("Your score was: ", score.value);
-    storeAttempt(score.value);
-    router.push(RoutePaths.Leaderboard);
-  }
+    if (newValue <= 0) {
+        console.log("GAME OVER!");
+        console.log("Your score was: ", score.value);
+        storeAttempt(score.value);
+        router.push(RoutePaths.Leaderboard);
+    }
 });
 </script>
 
 <template>
-  <div class="d-flex flex-column">
-    <guess-overlay v-model="showGuessOverlay" :was-guess-correct="wasGuessCorrect"/>
-    <cards-deck class="cards-deck" />
-    <guess-buttons @guessed="(ranking: string) => { takeGuess(ranking) }" />
-  </div>
+    <div class="d-flex flex-column">
+        <guess-overlay
+            v-model="showGuessOverlay"
+            :was-guess-correct="wasGuessCorrect"
+            :closeResolve="resolveAfterGuessOverlayCloses"
+        />
+        <cards-deck class="cards-deck" />
+        <guess-buttons @guessed="(ranking: string) => { takeGuess(ranking) }" />
+    </div>
 </template>
 
 <style scoped>
