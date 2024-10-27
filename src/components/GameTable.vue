@@ -17,7 +17,7 @@ const INCORRECT_GUESS_DECREMENT = 10;
 const { countdown, addSeconds, removeSeconds, resetCountdown, pauseCountdown, resumeCountdown } = useCountdown();
 const { solution, bestRanking, dealHand, solveHand } = useHand();
 const { prepareRankings } = useRankings();
-const { score, increaseScore } = useScore();
+const { score, increaseScore, resetScore } = useScore();
 const { storeAttempt } = useLeaderboard();
 const router = useRouter();
 
@@ -51,6 +51,7 @@ async function takeGuess(guessedRanking: string) {
 
 function restartGame() {
   resetCountdown();
+  resetScore();
   setupNewRound();
 }
 
