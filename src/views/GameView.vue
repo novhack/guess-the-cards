@@ -16,6 +16,6 @@ import CountdownLabel from '../components/CountdownLabel.vue';
 }
 
 .game-table {
-    padding: 0vh 15vw 0vh 15vw;
+    padding: 0vh 5vw 0vh 5vw;
 }
 </style>
