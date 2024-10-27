@@ -3,11 +3,11 @@ import { useStorage } from '@vueuse/core';
 const STORAGE_NAME = "guess-the-cards-leaderboard-storage";
 
 interface Leaderboard {
-    attemptsCount: number,
+    attemptsCount: number, // The total amount of attempts
     previousAttempts: Attempt[],
 }
 
-interface Attempt {
+export interface Attempt {
     name: string,
     score: number,
 }
