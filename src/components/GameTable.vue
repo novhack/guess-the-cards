@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router';
 import { RoutePaths } from '../plugins/router';
 import GuessOverlay from './GuessOverlay.vue';
 
-const { countdown, addSeconds, removeSeconds, startCountdown } = useCountdown();
+const { countdown, addSeconds, removeSeconds, resetCountdown } = useCountdown();
 const { solution, bestRanking, dealHand, solveHand } = useHand();
 const { rankings, prepareRankings } = useRankings();
 const { score, increaseScore } = useScore();
@@ -36,7 +36,7 @@ function takeGuess(guessedRanking: string) {
 }
 
 function restartGame() {
-  startCountdown();
+  resetCountdown();
   setupNewRound();
 }
 
