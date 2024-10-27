@@ -1,25 +1,16 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import CardsDeck from './CardsDeck.vue';
 import GuessButtons from './GuessButtons.vue';
 import GuessOverlay from './GuessOverlay.vue';
 import { useCountdown } from '../composables/useCountdown';
-import { useRankings } from '../composables/useRankings';
 import { useHand } from '../composables/useHand';
-import { useScore } from '../composables/useScore';
-import { useLeaderboard } from '../composables/useLeaderboard';
-import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { RoutePaths } from '../plugins/router';
+import { useGame } from '../composables/useGame';
 
-const CORRECT_GUESS_INCREMENT = 5;
-const INCORRECT_GUESS_DECREMENT = 10;
+const { pauseCountdown, resumeCountdown } = useCountdown();
+const { bestRanking } = useHand();
 
-const { countdown, addSeconds, removeSeconds, resetCountdown, pauseCountdown, resumeCountdown } = useCountdown();
-const { solution, bestRanking, dealHand, solveHand } = useHand();
-const { prepareRankings } = useRankings();
-const { score, increaseScore, resetScore } = useScore();
-const { storeAttempt } = useLeaderboard();
-const router = useRouter();
+const { setupNewRound, restartGame, evaluateRound } = useGame();
 
 // Overlay properties
 const showGuessOverlay = ref(false);
@@ -36,41 +27,14 @@ async function takeGuess(guessedRanking: string) {
         resolveAfterGuessOverlayCloses.value = resolve;
     });
 
-    // Evaluate the guessed ranking
-    if (bestRanking.value === guessedRanking) {
-        addSeconds(CORRECT_GUESS_INCREMENT);
-        increaseScore();
-    } else {
-        removeSeconds(INCORRECT_GUESS_DECREMENT);
-    }
+    evaluateRound(guessedRanking);
 
     setupNewRound();
     // Only resume countdown after the new round is setup
     resumeCountdown();
 }
 
-function restartGame() {
-  resetCountdown();
-  resetScore();
-  setupNewRound();
-}
-
-function setupNewRound() {
-    dealHand();
-    solveHand();
-    prepareRankings(solution, 3);
-}
-
 onMounted(() => restartGame());
-
-watch(countdown, (newValue: number) => {
-    if (newValue <= 0) {
-        console.log("GAME OVER!");
-        console.log("Your score was: ", score.value);
-        storeAttempt(score.value);
-        router.push(RoutePaths.Leaderboard);
-    }
-});
 </script>
 
 <template>

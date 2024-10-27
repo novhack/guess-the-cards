@@ -1,7 +1,8 @@
 import { ref, Ref } from 'vue';
 
+const score: Ref<number> = ref(0);
+
 export function useScore() {
-    const score: Ref<number> = ref(0);
 
     function increaseScore() {
         score.value += 1;
