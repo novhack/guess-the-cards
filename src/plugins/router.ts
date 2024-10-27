@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import StartView from '../views/StartView.vue';
 import GameView from '../views/GameView.vue';
@@ -17,6 +17,6 @@ const routes = [
 ];
 
 export default createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
