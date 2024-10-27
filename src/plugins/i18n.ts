@@ -11,8 +11,8 @@ export default createI18n({
             guessOverlay: {
                 titleCorrect: "Correct",
                 titleIncorrect: "Incorrect",
-                playerCorrect: "You gain 10s",
-                playerIncorrect: "You lose 10s",
+                playerCorrect: "You gain 5 seconds!",
+                playerIncorrect: "You lose 10 seconds!",
             },
             leaderboardView: {
                 title: "Leaderboard",
@@ -23,4 +23,4 @@ export default createI18n({
             },
         },
     },
-  });
+});

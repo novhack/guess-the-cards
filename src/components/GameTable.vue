@@ -10,6 +10,9 @@ import { useRouter } from 'vue-router';
 import { RoutePaths } from '../plugins/router';
 import GuessOverlay from './GuessOverlay.vue';
 
+const CORRECT_GUESS_INCREMENT = 5;
+const INCORRECT_GUESS_DECREMENT = 10;
+
 const { countdown, addSeconds, removeSeconds, resetCountdown } = useCountdown();
 const { solution, bestRanking, dealHand, solveHand } = useHand();
 const { rankings, prepareRankings } = useRankings();
@@ -22,10 +25,10 @@ const wasGuessCorrect = ref(false);
 
 function takeGuess(guessedRanking: string) {
   if (bestRanking.value === guessedRanking) {
-    addSeconds(10);
+    addSeconds(CORRECT_GUESS_INCREMENT);
     increaseScore();
   } else {
-    removeSeconds(10);
+    removeSeconds(INCORRECT_GUESS_DECREMENT);
   }
 
   // Show guess overlay
