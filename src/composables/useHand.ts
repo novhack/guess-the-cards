@@ -9,7 +9,6 @@ const bestRanking: Ref<string> = ref("");
 
 export function useHand() {
     const { buildDeck, shuffleDeck, dealCards } = useDeck();
-    const solution: Ref<any> = ref();
 
     function dealHand() {
         buildDeck();
@@ -18,13 +17,12 @@ export function useHand() {
     }
 
     function solveHand() {
-        solution.value = PokerSolver.solve(hand.value);
-        bestRanking.value = solution.value.name;
+        const solution = PokerSolver.solve(hand.value);
+        bestRanking.value = solution.name;
     }
 
     return {
         hand,
-        solution,
         bestRanking,
         dealHand,
         solveHand,

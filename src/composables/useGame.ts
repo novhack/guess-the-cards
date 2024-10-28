@@ -9,11 +9,12 @@ import { useLeaderboard } from '../composables/useLeaderboard';
 
 const CORRECT_GUESS_INCREMENT = 5;
 const INCORRECT_GUESS_DECREMENT = 10;
+const GUESS_BUTTONS_COUNT = 3;
 
 export function useGame() {
     const { countdown, addSeconds, removeSeconds, resetCountdown } = useCountdown();
-    const { solution, bestRanking, dealHand, solveHand } = useHand();
-    const { prepareRankings } = useRankings();
+    const { bestRanking, dealHand, solveHand } = useHand();
+    const { getRankings } = useRankings();
     const { score, increaseScore, resetScore } = useScore();
     const { storeAttempt } = useLeaderboard();
     const router = useRouter();
@@ -27,7 +28,7 @@ export function useGame() {
     function setupNewRound() {
         dealHand();
         solveHand();
-        prepareRankings(solution, 3);
+        getRankings(GUESS_BUTTONS_COUNT);
     }
 
     function evaluateRound(guessedRanking: string) {
