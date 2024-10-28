@@ -63,9 +63,10 @@ function afterLeave() {
         @after-leave="afterLeave"
     >
         <div class="d-flex flex-column">
-            <h1 class="d-flex justify-center">{{ $t(overlayTitle) }}</h1>
-            <div class="d-flex justify-center">{{ $t(overlayText) }}</div>
-            <div class="justify-center">{{ funnyMessage }}</div>
+            <h1 class="text-center">{{ $t(overlayTitle) }}</h1>
+            <div class="text-center">{{ $t(overlayText) }}</div>
+            <v-divider />
+            <div class="text-center">{{ funnyMessage }}</div>
         </div>
     </v-overlay>
 </template>
