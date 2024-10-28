@@ -35,5 +35,15 @@ export default defineConfig({
         api: 'modern-compiler'
       }
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/randomword': {
+        target: 'https://api.api-ninjas.com/',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
+  envPrefix: "CARDS_",
 });
