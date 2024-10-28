@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 import eslint from 'vite-plugin-eslint2';
 import viteCompression from 'vite-plugin-compression2';
+import { robots } from 'vite-plugin-robots';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
     }),
     vuetify({ autoImport: true }),
     viteCompression(),
+    robots(),
   ],
   build: {
     rollupOptions: {
