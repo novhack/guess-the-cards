@@ -14,7 +14,6 @@ export function useFunny() {
             return Promise.reject();
         } else {
             const randomWord: string = JSON.parse(data.value as string).word[0];
-            console.log("Loaded data:", randomWord);
             return Promise.resolve(randomWord);
         }
     }
