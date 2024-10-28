@@ -8,7 +8,8 @@ test('Deal cards', () => {
 });
 
 test('Solve hand', () => {
-    const { dealHand, solveHand } = useHand();
-    dealHand();
+    const { hand, bestRanking, solveHand } = useHand();
+    hand.value = ["Ad", "As", "Ac", "2h", "2s"];
     solveHand();
+    expect(bestRanking.value).toBe("Full House");
 });
