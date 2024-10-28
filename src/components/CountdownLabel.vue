@@ -11,6 +11,6 @@ const { countdown } = useCountdown();
 
 <style scoped>
 .countdown-label {
-    font-size: 2.5vh;
+    font-size: calc(1em + 2.5vw);
 }
 </style>
