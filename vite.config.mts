@@ -14,4 +14,17 @@ export default defineConfig({
     vuetify({ autoImport: true }),
     viteCompression(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'group-user': [
+            './src/views/GameView.vue',
+            './src/views/LeaderboardView.vue',
+            './src/views/StartView.vue',
+          ]
+        }
+      }
+    }
+  }
 });
