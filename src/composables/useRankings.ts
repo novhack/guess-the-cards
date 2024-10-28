@@ -1,4 +1,5 @@
 import { ref, Ref } from 'vue';
+import shuffleArray from 'shuffle-array';
 import { useHand } from './useHand';
 
 const rankings: Ref<Array<string>> = ref([]);
@@ -25,20 +26,17 @@ export function useRankings() {
      * @param count Number of rankings to return
      */
     function getRankings(count: number) {
-        // Remove best ranking from possible rankings and shuffle
-        const rankingsToSelect = possibleRankings
-            .filter((ranking: string) => ranking !== bestRanking.value)
-            .sort(() => Math.random() - 0.5);
+        // Remove best ranking from possible rankings
+        let rankingsToSelect = possibleRankings.filter((ranking: string) => ranking !== bestRanking.value);
+
+        // Shuffle rankings
+        rankingsToSelect = shuffleArray(rankingsToSelect);
 
         // Add count rankings to return array
-        rankings.value = [bestRanking.value];
-        for (let i = 1; i < count; i++) {
-            const ranking = rankingsToSelect.pop();
-            rankings.value.push(ranking ?? "");
-        }
+        rankings.value = [bestRanking.value].concat(rankingsToSelect.slice(0, count - 1));
 
         // One last shuffle so the best ranking is not always on top
-        rankings.value.sort(() => Math.random() - 0.5);
+        rankings.value = shuffleArray(rankings.value);
     }
 
     return {
