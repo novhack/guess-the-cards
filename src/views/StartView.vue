@@ -4,7 +4,7 @@ import { RoutePaths } from '../plugins/router';
 
 <template>
     <div class="d-flex fill-height align-center justify-center flex-column">
-        <h2 class="game-title">{{ $t('startView.gameTitle') }}</h2>
+        <h1 class="game-title">{{ $t('startView.gameTitle') }}</h1>
         <v-btn :to="RoutePaths.Game"> {{ $t('startView.playButton') }}</v-btn>
     </div>
 </template>
