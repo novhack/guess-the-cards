@@ -5,8 +5,7 @@ const { countdown } = useCountdown();
 
 <template>
     <div class="countdown-label d-flex flex-row">
-        <v-icon icon="mdi-hospital" />
-        <div>{{ countdown }} s</div>
+        <div>✚ {{ countdown }} s</div>
     </div>
 </template>
 

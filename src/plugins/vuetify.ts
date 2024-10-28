@@ -1,6 +1,19 @@
 import 'vuetify/styles';
-import '@mdi/font/css/materialdesignicons.css';
+
+import { VApp } from 'vuetify/components/VApp';
+import { VMain } from 'vuetify/components/VMain'
+import { VBtn } from 'vuetify/components/VBtn';
+import { VOverlay } from 'vuetify/components/VOverlay';
+import { VDataTableVirtual } from 'vuetify/components/VDataTable';
 
 import { createVuetify } from 'vuetify';
 
-export default createVuetify();
+export default createVuetify({
+    components: {
+        VApp,
+        VMain,
+        VBtn,
+        VOverlay,
+        VDataTableVirtual,
+      },
+});
