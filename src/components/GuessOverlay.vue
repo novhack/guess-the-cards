@@ -18,10 +18,9 @@ const model = defineModel({
     required: true,
 });
 
-const { getFunnyMessage } = useFunny();
+const { funnyMessage, getFunnyMessage } = useFunny();
 
 let timeout: ReturnType<typeof setTimeout>;
-const funnyMessage = ref("");
 
 const overlayTitle = computed(() => {
     return props.wasGuessCorrect ? "guessOverlay.titleCorrect" : "guessOverlay.titleIncorrect";
@@ -36,13 +35,7 @@ function afterEnter() {
 
     timeout = setTimeout(() => model.value = false, SELF_HIDE_TIMEOUT);
     // Load funny message and show it in the overlay
-    getFunnyMessage()
-        .then((message: string) => {
-            funnyMessage.value = message;
-        })
-        .catch((error: string) => {
-            funnyMessage.value = error;
-        })
+    getFunnyMessage();
 }
 
 function afterLeave() {
