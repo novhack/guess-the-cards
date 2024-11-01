@@ -15,21 +15,22 @@ const { setupNewRound, restartGame, evaluateRound } = useGame();
 // Overlay properties
 const showGuessOverlay = ref(false);
 const wasGuessCorrect = ref(false);
-const resolveAfterGuessOverlayCloses = ref(() => {});
+
+let lastGuessedRanking = "";
 
 async function takeGuess(guessedRanking: string) {
+    lastGuessedRanking = guessedRanking;
     pauseCountdown();
+    wasGuessCorrect.value = bestRanking.value === guessedRanking;
+    showGuessOverlay.value = true;
+}
 
-    // Show guess overlay and wait for it to close
-    await new Promise<void>(resolve => {
-        wasGuessCorrect.value = bestRanking.value === guessedRanking;
-        showGuessOverlay.value = true;
-        resolveAfterGuessOverlayCloses.value = resolve;
-    });
-
-    evaluateRound(guessedRanking);
-
+function overlayDisplayed() {
+    evaluateRound(lastGuessedRanking);
     setupNewRound();
+}
+
+function overlayHidden() {
     // Only resume countdown after the new round is setup
     resumeCountdown();
 }
@@ -42,7 +43,8 @@ onMounted(() => restartGame());
         <guess-overlay
             v-model="showGuessOverlay"
             :was-guess-correct="wasGuessCorrect"
-            :closeResolve="resolveAfterGuessOverlayCloses"
+            @overlay-displayed="overlayDisplayed"
+            @overlay-hidden="overlayHidden"
         />
         <cards-deck class="cards-deck" />
         <guess-buttons @guessed="(ranking: string) => { takeGuess(ranking) }" />

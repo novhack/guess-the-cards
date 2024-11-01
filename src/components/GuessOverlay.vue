@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, defineEmits } from 'vue';
 import { useFunny } from '../composables/useFunny';
 
 const SELF_HIDE_TIMEOUT = 5000;
 
+const emit = defineEmits(["overlayDisplayed", "overlayHidden"]);
+
 const props = defineProps({
     wasGuessCorrect: {
         type: Boolean,
-        required: true,
-    },
-    closeResolve: {
-        type: Function,
         required: true,
     },
 });
@@ -34,8 +32,9 @@ const overlayText = computed(() => {
 });
 
 function afterEnter() {
-    timeout = setTimeout(() => model.value = false, SELF_HIDE_TIMEOUT);
+    emit("overlayDisplayed");
 
+    timeout = setTimeout(() => model.value = false, SELF_HIDE_TIMEOUT);
     // Load funny message and show it in the overlay
     getFunnyMessage()
         .then((message: string) => {
@@ -48,8 +47,8 @@ function afterEnter() {
 
 function afterLeave() {
     clearTimeout(timeout);
-    props.closeResolve();
     funnyMessage.value = "";
+    emit("overlayHidden");
 }
 </script>
 
